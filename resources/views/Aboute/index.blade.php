@@ -1,28 +1,36 @@
 @extends('layouts.home')
 
-@section('title', 'درباره شهاب بالن | تولیدکننده بالن‌های نظامی، تبلیغاتی و پژوهشی')
+@php
+    $locale = app()->getLocale();
+    $isRtl  = in_array($locale, ['fa', 'ar'], true);
+@endphp
+
+@section('title', __('about.meta.title'))
 
 @section('meta')
-    <meta name="description" content="با شرکت شهاب بالن آشنا شوید؛ تولیدکننده و عرضه‌کننده بالن‌های نظامی، تبلیغاتی و پژوهشی. آشنایی با تاریخچه، توانمندی‌ها، تیم، فرایند تولید و استانداردهای شرکت.">
-    <meta name="keywords" content="درباره شهاب بالن, شرکت تولید بالن, تولید بالن نظامی, بالن تبلیغاتی, بالن پژوهشی, بالن هواشناسی, تولید بالن تخصصی, تولیدکننده بالن">
+    <meta name="description" content="{{ __('about.meta.description') }}">
+    <meta name="keywords" content="{{ __('about.meta.keywords') }}">
     <meta name="robots" content="index, follow, max-image-preview:large">
-    <link rel="canonical" href="{{ url('/about') }}">
+    <link rel="canonical" href="{{ url($locale . '/about') }}">
+    <link rel="alternate" hreflang="fa" href="{{ url('fa/about') }}">
+    <link rel="alternate" hreflang="ar" href="{{ url('ar/about') }}">
+    <link rel="alternate" hreflang="en" href="{{ url('en/about') }}">
+    <link rel="alternate" hreflang="x-default" href="{{ url('fa/about') }}">
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="درباره شرکت شهاب بالن">
-    <meta property="og:description" content="معرفی شرکت شهاب بالن، حوزه‌های فعالیت (نظامی، تبلیغاتی، پژوهشی)، توانمندی‌های تولیدی و خدمات تخصصی.">
-    <meta property="og:url" content="{{ url('/about') }}">
-    <meta property="og:locale" content="{{ app()->getLocale() == 'fa' ? 'fa_IR' : (app()->getLocale() == 'ar' ? 'ar_SA' : 'en_US') }}">
+    <meta property="og:title" content="{{ __('about.hero.title') }}">
+    <meta property="og:description" content="{{ __('about.hero.subtitle') }}">
+    <meta property="og:url" content="{{ url($locale . '/about') }}">
+    <meta property="og:locale" content="{{ $locale === 'fa' ? 'fa_IR' : ($locale === 'ar' ? 'ar_SA' : 'en_US') }}">
     <meta property="og:image" content="{{ asset('img/og-image-about.jpg') }}">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="درباره شهاب بالن">
-    <meta name="twitter:description" content="آشنایی با شرکت شهاب بالن و توانمندی‌های تولیدی در سه حوزه نظامی، تبلیغاتی و پژوهشی.">
+    <meta name="twitter:title" content="{{ __('about.hero.title') }}">
+    <meta name="twitter:description" content="{{ __('about.hero.subtitle') }}">
     <meta name="twitter:image" content="{{ asset('img/og-image-about.jpg') }}">
 @endsection
 
-@section('content')
-
+@section('styles')
     <style>
         :root {
             --navy-900: #061530;
@@ -33,7 +41,6 @@
             --gold-400: #E5C158;
             --gold-300: #F0D98C;
             --cyan-400: #4FC3F7;
-            --cyan-300: #80D8FA;
             --bg: #F7F9FC;
             --surface: #FFFFFF;
             --surface-2: #EEF2F8;
@@ -50,8 +57,6 @@
         * { box-sizing: border-box; }
 
         .about-page {
-            direction: rtl;
-            text-align: right;
             color: var(--navy-600);
             line-height: 2.1;
             background: var(--bg);
@@ -59,7 +64,9 @@
             font-family: 'Vazirmatn', 'IRANSans', Tahoma, sans-serif;
         }
 
-        /* ============ HERO SECTION ============ */
+        .about-page[dir="rtl"] { direction: rtl; text-align: right; }
+        .about-page[dir="ltr"] { direction: ltr; text-align: left; }
+
         .about-hero {
             position: relative;
             padding: 120px 20px 100px;
@@ -81,14 +88,6 @@
             z-index: -2;
         }
 
-        .about-hero::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            /*background: linear-gradient(135deg, rgba(10, 31, 68, 0.9) 0%, rgba(6, 21, 48, 0.95) 100%);*/
-            z-index: -1;
-        }
-
         .about-hero .badge {
             display: inline-flex;
             align-items: center;
@@ -99,7 +98,6 @@
             border-radius: 40px;
             font-size: 13px;
             font-weight: 800;
-            letter-spacing: 0.3px;
             box-shadow: 0 6px 24px rgba(212, 175, 55, 0.4);
             animation: badgePulse 3s ease-in-out infinite;
             margin-bottom: 20px;
@@ -120,7 +118,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
         }
 
         .about-hero p {
@@ -131,15 +128,12 @@
             line-height: 2;
         }
 
-        /* ============ GENERAL SECTIONS ============ */
         .about-section {
             padding: 80px 20px;
             position: relative;
         }
 
-        .about-section.bg-light {
-            background: var(--surface-2);
-        }
+        .about-section.bg-light { background: var(--surface-2); }
 
         .container-custom {
             max-width: 1180px;
@@ -153,17 +147,21 @@
             font-size: 14px;
             margin-bottom: 12px;
             position: relative;
-            padding-right: 20px;
         }
+
+        .about-page[dir="rtl"] .about-badge { padding-right: 20px; }
+        .about-page[dir="ltr"] .about-badge { padding-left: 20px; }
 
         .about-badge::before {
             content: '◆';
             position: absolute;
-            right: 0;
             top: 50%;
             transform: translateY(-50%);
             font-size: 10px;
         }
+
+        .about-page[dir="rtl"] .about-badge::before { right: 0; }
+        .about-page[dir="ltr"] .about-badge::before { left: 0; }
 
         .about-section-title {
             color: var(--navy-800);
@@ -181,6 +179,8 @@
             text-align: justify;
         }
 
+        .about-page[dir="ltr"] .about-section p { text-align: left; }
+
         .about-image {
             width: 100%;
             height: 100%;
@@ -191,11 +191,8 @@
             transition: transform 0.5s ease;
         }
 
-        .about-image:hover {
-            transform: scale(1.02);
-        }
+        .about-image:hover { transform: scale(1.02); }
 
-        /* ============ CARDS ============ */
         .about-card {
             height: 100%;
             padding: 32px 24px;
@@ -214,7 +211,6 @@
             content: '';
             position: absolute;
             top: 0;
-            right: 0;
             width: 4px;
             height: 100%;
             background: linear-gradient(180deg, var(--gold-500), var(--cyan-400));
@@ -222,15 +218,16 @@
             transition: opacity 0.3s ease;
         }
 
+        .about-page[dir="rtl"] .about-card::before { right: 0; }
+        .about-page[dir="ltr"] .about-card::before { left: 0; }
+
         .about-card:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-lg);
             border-color: transparent;
         }
 
-        .about-card:hover::before {
-            opacity: 1;
-        }
+        .about-card:hover::before { opacity: 1; }
 
         .about-card i {
             font-size: 36px;
@@ -263,7 +260,6 @@
             align-items: center;
         }
 
-        /* ============ HIGHLIGHT SECTION ============ */
         .about-highlight {
             background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-700) 100%);
             color: #fff;
@@ -283,9 +279,7 @@
             border-radius: 50%;
         }
 
-        .about-highlight .about-badge {
-            color: var(--gold-400);
-        }
+        .about-highlight .about-badge { color: var(--gold-400); }
 
         .about-highlight h2 {
             color: #fff;
@@ -301,6 +295,8 @@
             text-align: justify;
         }
 
+        .about-page[dir="ltr"] .about-highlight p { text-align: left; }
+
         .about-list {
             padding: 0;
             list-style: none;
@@ -310,35 +306,37 @@
         .about-list li {
             position: relative;
             margin-bottom: 14px;
-            padding-right: 34px;
             color: #E2EAF2;
             font-size: 15px;
             line-height: 2;
             transition: transform 0.3s ease;
         }
 
+        .about-page[dir="rtl"] .about-list li { padding-right: 34px; }
+        .about-page[dir="ltr"] .about-list li { padding-left: 34px; }
+
         .about-list li::before {
             content: '\f00c';
             font-family: "Font Awesome 5 Free";
             font-weight: 900;
             position: absolute;
-            right: 0;
             top: 4px;
             color: var(--gold-400);
             font-size: 13px;
         }
 
-        .about-list li:hover {
-            transform: translateX(-6px);
-            color: #fff;
-        }
+        .about-page[dir="rtl"] .about-list li::before { right: 0; }
+        .about-page[dir="ltr"] .about-list li::before { left: 0; }
 
-        /* ============ TIMELINE ============ */
+        .about-page[dir="rtl"] .about-list li:hover { transform: translateX(-6px); }
+        .about-page[dir="ltr"] .about-list li:hover { transform: translateX(6px); }
+
         .about-timeline {
-            border-right: 2px solid var(--border);
-            padding-right: 30px;
             position: relative;
         }
+
+        .about-page[dir="rtl"] .about-timeline { border-right: 2px solid var(--border); padding-right: 30px; }
+        .about-page[dir="ltr"] .about-timeline { border-left: 2px solid var(--border); padding-left: 30px; }
 
         .timeline-item {
             position: relative;
@@ -351,8 +349,10 @@
             transition: all 0.4s ease;
         }
 
+        .about-page[dir="rtl"] .timeline-item:hover { transform: translateX(-6px); }
+        .about-page[dir="ltr"] .timeline-item:hover { transform: translateX(6px); }
+
         .timeline-item:hover {
-            transform: translateX(-6px);
             box-shadow: var(--shadow-md);
             border-color: var(--gold-400);
         }
@@ -360,7 +360,6 @@
         .timeline-item::before {
             content: '';
             position: absolute;
-            right: -40px;
             top: 28px;
             width: 16px;
             height: 16px;
@@ -370,6 +369,9 @@
             box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
             transition: all 0.3s ease;
         }
+
+        .about-page[dir="rtl"] .timeline-item::before { right: -40px; }
+        .about-page[dir="ltr"] .timeline-item::before { left: -40px; }
 
         .timeline-item:hover::before {
             background: var(--cyan-400);
@@ -389,54 +391,64 @@
             line-height: 2;
         }
 
-        /* ============ FAQ ACCORDION ============ */
-        .accordion-item {
+        .faq-item {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: var(--radius) !important;
+            border-radius: var(--radius);
             margin-bottom: 14px;
             overflow: hidden;
             box-shadow: var(--shadow-sm);
+            transition: all 0.35s ease;
         }
 
-        .accordion-button {
-            font-weight: 800;
-            font-size: 16px;
-            color: var(--navy-800);
-            background: var(--surface);
+        .faq-item:hover { border-color: var(--gold-400); box-shadow: var(--shadow-md); }
+        .faq-item[open] { border-color: var(--navy-700); }
+
+        .faq-item summary {
+            list-style: none;
+            cursor: pointer;
             padding: 20px 24px;
-            text-align: right;
-            border: none;
-            box-shadow: none !important;
-        }
-
-        .accordion-button:not(.collapsed) {
+            font-size: 16px;
+            font-weight: 800;
             color: var(--navy-800);
-            background: var(--surface-2);
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
-        .accordion-button::after {
-            background-image: none;
-            content: '\f067';
-            font-family: "Font Awesome 5 Free";
+        .faq-item summary::-webkit-details-marker { display: none; }
+
+        .faq-item summary::before {
+            content: '+';
+            flex-shrink: 0;
+            width: 34px; height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--gold-500), var(--gold-400));
+            color: var(--navy-900);
+            border-radius: 50%;
+            font-size: 22px;
             font-weight: 900;
-            color: var(--gold-500);
-            transition: transform 0.3s ease;
+            transition: all 0.4s ease;
         }
 
-        .accordion-button:not(.collapsed)::after {
-            transform: rotate(45deg);
-            color: var(--cyan-400);
+        .faq-item[open] summary::before {
+            content: '−';
+            background: linear-gradient(135deg, var(--navy-700), var(--navy-600));
+            color: #fff;
+            transform: rotate(180deg);
         }
 
-        .accordion-body {
-            padding: 0 24px 22px;
+        .faq-item .faq-body {
+            padding: 0 24px 22px 76px;
             color: var(--text-mid);
             font-size: 14.5px;
             line-height: 2.2;
         }
 
-        /* ============ CTA ============ */
+        .about-page[dir="ltr"] .faq-item .faq-body { padding: 0 76px 22px 24px; }
+
         .about-cta {
             background: linear-gradient(135deg, var(--navy-800) 0%, var(--navy-600) 100%);
             padding: 64px 32px;
@@ -488,9 +500,10 @@
             align-items: center;
             gap: 10px;
             box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.35s ease;
             position: relative;
             z-index: 2;
+            text-decoration: none;
         }
 
         .about-cta .btn:hover {
@@ -499,7 +512,6 @@
             color: var(--navy-900);
         }
 
-        /* ============ ALERT ============ */
         .alert-warning {
             background: #FFF9E8;
             border: 1px solid var(--gold-400);
@@ -511,18 +523,14 @@
             margin-top: 32px;
         }
 
-        .alert-warning strong {
-            color: var(--navy-900);
-        }
-
-        /* ============ RESPONSIVE ============ */
         @media (max-width: 992px) {
             .about-hero { padding: 90px 20px 70px; }
             .about-section { padding: 60px 20px; }
             .about-highlight { padding: 60px 20px; }
-            .about-timeline { border: none; padding-right: 0; margin-top: 20px; }
+            .about-timeline { border: none !important; padding: 0 !important; margin-top: 20px; }
             .timeline-item::before { display: none; }
-            .timeline-item { border-right: 4px solid var(--gold-500); }
+            .about-page[dir="rtl"] .timeline-item { border-right: 4px solid var(--gold-500); }
+            .about-page[dir="ltr"] .timeline-item { border-left: 4px solid var(--gold-500); }
         }
 
         @media (max-width: 768px) {
@@ -535,148 +543,111 @@
             .about-card { padding: 24px 18px; }
             .about-card i { font-size: 30px; }
             .about-card h3 { font-size: 17px; }
-            .accordion-button { padding: 16px 18px; font-size: 14.5px; }
-            .accordion-body { padding: 0 18px 18px; font-size: 14px; }
+            .faq-item summary { padding: 16px 18px; font-size: 14.5px; }
+            .faq-item .faq-body { padding: 0 18px 18px; font-size: 14px; }
             .about-cta { padding: 44px 20px; }
             .about-cta .btn { padding: 13px 32px; font-size: 14px; }
             .about-image { min-height: 250px; }
         }
     </style>
+@endsection
 
-    <div class="about-page">
+@section('content')
 
-        {{-- Hero --}}
+    <div class="about-page" dir="{{ $isRtl ? 'rtl' : 'ltr' }}">
+
+        {{-- HERO --}}
         <section class="about-hero">
             <div class="container-custom">
-                <span class="badge">معرفی شرکت</span>
-                <h1>درباره شرکت شهاب بالن</h1>
-                <p>
-                    شهاب بالن با تمرکز بر طراحی، تولید و عرضه انواع بالن‌های تخصصی در سه حوزه
-                    <strong>نظامی</strong>، <strong>تبلیغاتی</strong> و <strong>پژوهشی</strong>،
-                    در مسیر ارائه راهکارهای متناسب با نیاز صنایع، سازمان‌ها، مجموعه‌های
-                    پژوهشی و کسب‌وکارها فعالیت می‌کند.
-                </p>
+                <span class="badge">{{ __('about.hero.badge') }}</span>
+                <h1>{{ __('about.hero.title') }}</h1>
+                <p>{{ __('about.hero.subtitle') }}</p>
             </div>
         </section>
 
-        {{-- معرفی شرکت --}}
+        {{-- INTRO --}}
         <section class="about-section">
             <div class="container-custom">
                 <div class="row align-items-center g-5">
                     <div class="col-lg-6">
-                        <span class="about-badge">ما که هستیم؟</span>
-                        <h2 class="about-section-title">معرفی شرکت شهاب بالن</h2>
-                        <p>
-                            شرکت شهاب بالن در حوزه طراحی، ساخت و تأمین محصولات
-                            مبتنی بر فناوری بالن فعالیت می‌کند. تمرکز اصلی این مجموعه
-                            بر سه حوزه تخصصی <strong>بالن‌های نظامی</strong>،
-                            <strong>بالن‌های تبلیغاتی</strong> و <strong>بالن‌های پژوهشی</strong> است.
-                        </p>
-                        <p>
-                            این شرکت با شناخت دقیق نیاز مشتری، انتخاب مواد اولیه مناسب،
-                            طراحی کاربردی و کنترل کیفیت محصولات، راهکارهای اختصاصی
-                            را برای هر یک از این سه حوزه ارائه می‌دهد.
-                        </p>
-                        <p>
-                            هدف شهاب بالن، ارائه محصولاتی متناسب با نیاز پروژه،
-                            شرایط محیطی، الزامات فنی و انتظارات مشتریان است.
-                        </p>
+                        <span class="about-badge">{{ __('about.intro.badge') }}</span>
+                        <h2 class="about-section-title">{{ __('about.intro.title') }}</h2>
+                        <p>{{ __('about.intro.p1') }}</p>
+                        <p>{{ __('about.intro.p2') }}</p>
+                        <p>{{ __('about.intro.p3') }}</p>
                     </div>
                     <div class="col-lg-6">
                         <img src="{{ asset('img/AbouteUs/ABOUTE.jpeg') }}"
                              class="about-image"
                              loading="lazy"
-                             alt="معرفی شرکت شهاب بالن و فعالیت‌های تولیدی در سه حوزه نظامی، تبلیغاتی و پژوهشی">
+                             alt="{{ __('about.intro.image_alt') }}">
                     </div>
                 </div>
             </div>
         </section>
 
-        {{-- حوزه های فعالیت --}}
+        {{-- FIELDS --}}
         <section class="about-section bg-light">
             <div class="container-custom">
                 <div class="text-center mb-5">
-                    <span class="about-badge">زمینه‌های تخصصی</span>
-                    <h2 class="about-section-title">حوزه‌های فعالیت شرکت</h2>
-                    <p>فعالیت‌های شرکت شهاب بالن در سه حوزه اصلی تعریف شده است.</p>
+                    <span class="about-badge">{{ __('about.fields.badge') }}</span>
+                    <h2 class="about-section-title">{{ __('about.fields.title') }}</h2>
+                    <p>{{ __('about.fields.subtitle') }}</p>
                 </div>
 
                 <div class="row g-4 justify-content-center">
-                    {{-- نظامی --}}
                     <div class="col-md-6 col-lg-4">
                         <div class="about-card">
                             <i class="fas fa-shield-alt"></i>
-                            <h3>بالن‌های نظامی</h3>
-                            <p>
-                                طراحی و تولید بالون‌های شناسایی، نظارتی و آموزشی
-                                با استانداردهای دفاعی و فناوری روز دنیا، متناسب با
-                                نیاز سازمان‌های نظامی و پدافند غیرعامل.
-                            </p>
+                            <h3>{{ __('about.fields.military_title') }}</h3>
+                            <p>{{ __('about.fields.military_text') }}</p>
                         </div>
                     </div>
-                    {{-- تبلیغاتی --}}
                     <div class="col-md-6 col-lg-4">
                         <div class="about-card">
                             <i class="fas fa-bullhorn"></i>
-                            <h3>بالن‌های تبلیغاتی</h3>
-                            <p>
-                                طراحی و تولید انواع بالن‌های تبلیغاتی، سازه‌های
-                                بادی، بالن‌های نمایشگاهی و محصولات سفارشی
-                                برای معرفی برندها و اجرای کمپین‌های تبلیغاتی.
-                            </p>
+                            <h3>{{ __('about.fields.promo_title') }}</h3>
+                            <p>{{ __('about.fields.promo_text') }}</p>
                         </div>
                     </div>
-                    {{-- پژوهشی --}}
                     <div class="col-md-6 col-lg-4">
                         <div class="about-card">
                             <i class="fas fa-flask"></i>
-                            <h3>بالن‌های پژوهشی</h3>
-                            <p>
-                                تأمین و تولید محصولات مرتبط با پروژه‌های تحقیقاتی،
-                                مطالعات جوی، هواشناسی، آزمایش‌های علمی و
-                                کاربردهای دانشگاهی متناسب با مشخصات فنی پروژه.
-                            </p>
+                            <h3>{{ __('about.fields.research_title') }}</h3>
+                            <p>{{ __('about.fields.research_text') }}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        {{-- تاریخچه --}}
+        {{-- HISTORY --}}
         <section class="about-section">
             <div class="container-custom">
                 <div class="row g-5">
                     <div class="col-lg-5">
-                        <span class="about-badge">مسیر فعالیت</span>
-                        <h2 class="about-section-title">تاریخچه و مسیر توسعه</h2>
-                        <p>
-                            مسیر توسعه شهاب بالن بر پایه شناخت نیاز بازار در سه حوزه
-                            نظامی، تبلیغاتی و پژوهشی، ارتقای توان فنی، توسعه محصولات
-                            و بهبود مستمر فرایندهای طراحی و تولید شکل می‌گیرد.
-                        </p>
-                        <p>
-                            این مجموعه تلاش می‌کند با توجه به تغییر نیازهای مشتریان
-                            و پیشرفت فناوری، راهکارهای مناسب‌تری برای پروژه‌های
-                            مختلف در هر یک از این حوزه‌ها ارائه کند.
-                        </p>
+                        <span class="about-badge">{{ __('about.history.badge') }}</span>
+                        <h2 class="about-section-title">{{ __('about.history.title') }}</h2>
+                        <p>{{ __('about.history.p1') }}</p>
+                        <p>{{ __('about.history.p2') }}</p>
                     </div>
                     <div class="col-lg-7">
                         <div class="about-timeline">
                             <div class="timeline-item">
-                                <h3>آغاز فعالیت</h3>
-                                <p>شروع فعالیت مجموعه در حوزه محصولات و راهکارهای مرتبط با بالن در سه حوزه اصلی.</p>
+                                <h3>{{ __('about.history.t1_title') }}</h3>
+                                <p>{{ __('about.history.t1_text') }}</p>
                             </div>
                             <div class="timeline-item">
-                                <h3>توسعه محصولات</h3>
-                                <p>گسترش زمینه‌های طراحی و تولید در حوزه‌های نظامی، تبلیغاتی و پژوهشی و پاسخ‌گویی به سفارش‌های متنوع مشتریان.</p>
+                                <h3>{{ __('about.history.t2_title') }}</h3>
+                                <p>{{ __('about.history.t2_text') }}</p>
                             </div>
                             <div class="timeline-item">
-                                <h3>توسعه توانمندی‌های فنی</h3>
-                                <p>تمرکز بر بهبود فرایندهای تولید، کنترل کیفیت و توسعه محصولات سفارشی در سه حوزه تخصصی.</p>
+                                <h3>{{ __('about.history.t3_title') }}</h3>
+                                <p>{{ __('about.history.t3_text') }}</p>
                             </div>
                             <div class="timeline-item">
-                                <h3>افق آینده</h3>
-                                <p>توسعه همکاری‌های داخلی و بین‌المللی و ارتقای مستمر کیفیت محصولات و خدمات در حوزه‌های نظامی، تبلیغاتی و پژوهشی.</p>
+                                <h3>{{ __('about.history.t4_title') }}</h3>
+                                <p>{{ __('about.history.t4_text') }}</p>
                             </div>
                         </div>
                     </div>
@@ -684,125 +655,107 @@
             </div>
         </section>
 
-        {{-- تیم و ظرفیت تولید --}}
+        {{-- TEAM --}}
         <section class="about-highlight">
             <div class="container-custom">
                 <div class="row align-items-center g-5">
                     <div class="col-lg-6">
-                        <span class="about-badge">توانمندی سازمانی</span>
-                        <h2>تیم تخصصی و ظرفیت تولید</h2>
-                        <p>
-                            کیفیت محصول تنها به تجهیزات وابسته نیست؛
-                            دانش فنی، تجربه نیروی انسانی، انتخاب مواد اولیه،
-                            نظارت بر مراحل تولید و کنترل کیفیت نیز نقش مهمی
-                            در نتیجه نهایی دارند.
-                        </p>
-                        <p>
-                            شهاب بالن با رویکرد توسعه توانمندی‌های تخصصی در سه حوزه
-                            نظامی، تبلیغاتی و پژوهشی، تلاش می‌کند محصولات خود را
-                            متناسب با مشخصات فنی و شرایط موردنیاز هر پروژه ارائه کند.
-                        </p>
+                        <span class="about-badge">{{ __('about.team.badge') }}</span>
+                        <h2>{{ __('about.team.title') }}</h2>
+                        <p>{{ __('about.team.p1') }}</p>
+                        <p>{{ __('about.team.p2') }}</p>
                     </div>
                     <div class="col-lg-6">
                         <ul class="about-list">
-                            <li>بررسی نیاز و مشخصات فنی سفارش</li>
-                            <li>طراحی و انتخاب مواد اولیه متناسب با کاربرد</li>
-                            <li>برنامه‌ریزی و اجرای مراحل تولید</li>
-                            <li>بررسی کیفیت و انطباق محصول با سفارش</li>
-                            <li>بسته‌بندی و آماده‌سازی برای تحویل</li>
-                            <li>پشتیبانی و پیگیری سفارش‌ها</li>
+                            <li>{{ __('about.team.li1') }}</li>
+                            <li>{{ __('about.team.li2') }}</li>
+                            <li>{{ __('about.team.li3') }}</li>
+                            <li>{{ __('about.team.li4') }}</li>
+                            <li>{{ __('about.team.li5') }}</li>
+                            <li>{{ __('about.team.li6') }}</li>
                         </ul>
                         <div class="mt-4">
-                            <p style="font-size: 14px; opacity: 0.8;">
-                                ظرفیت تولید، تعداد اعضای تیم و مشخصات تجهیزات
-                                باید بر اساس اطلاعات رسمی و قابل تأیید شرکت
-                                در این بخش تکمیل شوند.
-                            </p>
+                            <p style="font-size: 14px; opacity: 0.8;">{{ __('about.team.note') }}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        {{-- مجوزها و گواهی ها --}}
+        {{-- CERTS --}}
         <section class="about-section">
             <div class="container-custom">
                 <div class="text-center mb-5">
-                    <span class="about-badge">اعتبار و استانداردها</span>
-                    <h2 class="about-section-title">مجوزها و گواهی‌نامه‌ها</h2>
-                    <p>
-                        شفافیت در ارائه مستندات قانونی، مجوزهای فعالیت
-                        و گواهی‌های معتبر، بخشی از مسیر ایجاد اعتماد
-                        در همکاری‌های تجاری و صنعتی است.
-                    </p>
+                    <span class="about-badge">{{ __('about.certs.badge') }}</span>
+                    <h2 class="about-section-title">{{ __('about.certs.title') }}</h2>
+                    <p>{{ __('about.certs.subtitle') }}</p>
                 </div>
 
                 <div class="row g-4">
                     <div class="col-md-6 col-lg-4">
                         <div class="about-card text-center">
                             <i class="fas fa-certificate"></i>
-                            <h3>گواهی‌نامه‌های کیفیت</h3>
-                            <p>معرفی استانداردها و گواهی‌نامه‌هایی که شرکت واقعاً دریافت کرده و اعتبار آن‌ها قابل بررسی است.</p>
+                            <h3>{{ __('about.certs.c1_title') }}</h3>
+                            <p>{{ __('about.certs.c1_text') }}</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="about-card text-center">
                             <i class="fas fa-file-contract"></i>
-                            <h3>مجوزهای قانونی</h3>
-                            <p>ارائه اطلاعات مجوزهای ثبت، فعالیت و سایر مجوزهای رسمی مرتبط با حوزه فعالیت شرکت.</p>
+                            <h3>{{ __('about.certs.c2_title') }}</h3>
+                            <p>{{ __('about.certs.c2_text') }}</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="about-card text-center">
                             <i class="fas fa-award"></i>
-                            <h3>سوابق و تأییدیه‌ها</h3>
-                            <p>معرفی تأییدیه‌ها، گواهی‌های فنی و مستندات مرتبط با محصولات و پروژه‌های انجام‌شده.</p>
+                            <h3>{{ __('about.certs.c3_title') }}</h3>
+                            <p>{{ __('about.certs.c3_text') }}</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="alert alert-warning mt-4">
-                    <strong>توجه:</strong> تصاویر و نام مجوزها و گواهی‌نامه‌ها را فقط پس از دریافت
-                    و تأیید مستندات رسمی شرکت در این قسمت قرار دهید.
+                <div class="alert-warning">
+                    {{ __('about.certs.note') }}
                 </div>
             </div>
         </section>
 
-        {{-- ارزش ها --}}
+        {{-- VALUES --}}
         <section class="about-section bg-light">
             <div class="container-custom">
                 <div class="text-center mb-5">
-                    <span class="about-badge">اصول کاری ما</span>
-                    <h2 class="about-section-title">ارزش‌ها و تعهدات شرکت</h2>
+                    <span class="about-badge">{{ __('about.values.badge') }}</span>
+                    <h2 class="about-section-title">{{ __('about.values.title') }}</h2>
                 </div>
 
                 <div class="row g-4">
                     <div class="col-md-6 col-lg-3">
                         <div class="about-card text-center">
                             <i class="fas fa-check-circle"></i>
-                            <h3>کیفیت</h3>
-                            <p>توجه به کیفیت مواد اولیه، تولید و محصول نهایی.</p>
+                            <h3>{{ __('about.values.v1_title') }}</h3>
+                            <p>{{ __('about.values.v1_text') }}</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <div class="about-card text-center">
                             <i class="fas fa-lightbulb"></i>
-                            <h3>نوآوری</h3>
-                            <p>توسعه راهکارهای متناسب با نیازهای جدید مشتریان.</p>
+                            <h3>{{ __('about.values.v2_title') }}</h3>
+                            <p>{{ __('about.values.v2_text') }}</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <div class="about-card text-center">
                             <i class="fas fa-handshake"></i>
-                            <h3>اعتماد</h3>
-                            <p>شفافیت در ارتباطات و تعهد به توافق‌های کاری.</p>
+                            <h3>{{ __('about.values.v3_title') }}</h3>
+                            <p>{{ __('about.values.v3_text') }}</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <div class="about-card text-center">
                             <i class="fas fa-headset"></i>
-                            <h3>پشتیبانی</h3>
-                            <p>پاسخ‌گویی و همراهی در مراحل سفارش و تحویل.</p>
+                            <h3>{{ __('about.values.v4_title') }}</h3>
+                            <p>{{ __('about.values.v4_text') }}</p>
                         </div>
                     </div>
                 </div>
@@ -813,78 +766,30 @@
         <section class="about-section" id="faq">
             <div class="container-custom">
                 <div class="text-center mb-5">
-                    <span class="about-badge">پرسش و پاسخ</span>
-                    <h2 class="about-section-title">سؤالات متداول درباره شهاب بالن</h2>
+                    <span class="about-badge">{{ __('about.faq.badge') }}</span>
+                    <h2 class="about-section-title">{{ __('about.faq.title') }}</h2>
                 </div>
 
-                <div class="accordion" id="aboutFaq">
-                    <div class="accordion-item">
-                        <h3 class="accordion-header">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                                شرکت شهاب بالن در چه زمینه‌هایی فعالیت می‌کند؟
-                            </button>
-                        </h3>
-                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#aboutFaq">
-                            <div class="accordion-body">
-                                شهاب بالن در سه حوزه اصلی <strong>بالن‌های نظامی</strong>،
-                                <strong>بالن‌های تبلیغاتی</strong> و <strong>بالن‌های پژوهشی</strong>
-                                (شامل هواشناسی و کاربردهای علمی) فعالیت می‌کند.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item">
-                        <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                                آیا امکان سفارش محصولات سفارشی در هر سه حوزه وجود دارد؟
-                            </button>
-                        </h3>
-                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#aboutFaq">
-                            <div class="accordion-body">
-                                امکان بررسی و طراحی سفارش‌های سفارشی بر اساس نوع کاربرد (نظامی، تبلیغاتی، پژوهشی)، ابعاد، مشخصات فنی و شرایط پروژه وجود دارد. جزئیات هر سفارش پس از بررسی نیاز مشتری مشخص می‌شود.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item">
-                        <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                                چگونه می‌توان درباره ظرفیت تولید شرکت اطلاعات گرفت؟
-                            </button>
-                        </h3>
-                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#aboutFaq">
-                            <div class="accordion-body">
-                                ظرفیت تولید به نوع محصول (نظامی، تبلیغاتی، پژوهشی)، ابعاد، مواد اولیه و مشخصات سفارش بستگی دارد. برای دریافت اطلاعات دقیق می‌توان با واحد فروش و کارشناسان شرکت ارتباط برقرار کرد.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item">
-                        <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
-                                آیا شرکت دارای مجوز و گواهی‌نامه است؟
-                            </button>
-                        </h3>
-                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#aboutFaq">
-                            <div class="accordion-body">
-                                اطلاعات مجوزها و گواهی‌نامه‌های شرکت باید بر اساس مستندات رسمی و معتبر ارائه شود. برای بررسی هر مدرک می‌توانید با شرکت تماس بگیرید.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item">
-                        <h3 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
-                                چگونه می‌توان درخواست همکاری یا استعلام قیمت ثبت کرد؟
-                            </button>
-                        </h3>
-                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#aboutFaq">
-                            <div class="accordion-body">
-                                مشتریان و سازمان‌ها می‌توانند از طریق صفحه تماس با ما، اطلاعات محصول موردنظر (در حوزه نظامی، تبلیغاتی یا پژوهشی)، تعداد، کاربرد و مشخصات سفارش خود را ارسال کنند.
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <details class="faq-item" open>
+                    <summary>{{ __('about.faq.q1') }}</summary>
+                    <div class="faq-body">{{ __('about.faq.a1') }}</div>
+                </details>
+                <details class="faq-item">
+                    <summary>{{ __('about.faq.q2') }}</summary>
+                    <div class="faq-body">{{ __('about.faq.a2') }}</div>
+                </details>
+                <details class="faq-item">
+                    <summary>{{ __('about.faq.q3') }}</summary>
+                    <div class="faq-body">{{ __('about.faq.a3') }}</div>
+                </details>
+                <details class="faq-item">
+                    <summary>{{ __('about.faq.q4') }}</summary>
+                    <div class="faq-body">{{ __('about.faq.a4') }}</div>
+                </details>
+                <details class="faq-item">
+                    <summary>{{ __('about.faq.q5') }}</summary>
+                    <div class="faq-body">{{ __('about.faq.a5') }}</div>
+                </details>
             </div>
         </section>
 
@@ -892,14 +797,11 @@
         <section class="about-section">
             <div class="container-custom">
                 <div class="about-cta">
-                    <h2>آماده همکاری با شما هستیم</h2>
-                    <p>
-                        برای دریافت اطلاعات محصولات در حوزه‌های نظامی، تبلیغاتی و پژوهشی،
-                        ثبت سفارش یا بررسی فرصت‌های همکاری با کارشناسان شهاب بالن ارتباط بگیرید.
-                    </p>
-                    <a href="tel:09191919885" class="btn">
-                        تماس با ما
-                        <i class="fas fa-arrow-left"></i>
+                    <h2>{{ __('about.cta.title') }}</h2>
+                    <p>{{ __('about.cta.body') }}</p>
+                    <a href="tel:{{ __('about.cta.phone') }}" class="btn">
+                        {{ __('about.cta.button') }}
+                        <i class="fas fa-arrow-{{ $isRtl ? 'left' : 'right' }}"></i>
                     </a>
                 </div>
             </div>
@@ -907,37 +809,30 @@
 
     </div>
 
-    {{-- ============================================================
-         STRUCTURED DATA (Schema.org)
-    ============================================================ --}}
     @php
-        $aboutUrl = url('/about');
+        $aboutUrl = url($locale . '/about');
         $siteUrl = url('/');
 
         $schema = [
             "@context" => "https://schema.org",
             "@graph" => [
-                // 1. AboutPage
                 [
                     "@type" => "AboutPage",
                     "@id" => $aboutUrl . "#aboutpage",
                     "url" => $aboutUrl,
-                    "name" => "درباره شرکت شهاب بالن",
-                    "description" => "معرفی شرکت شهاب بالن و حوزه‌های فعالیت آن در زمینه طراحی، تولید و عرضه بالن‌های نظامی، تبلیغاتی و پژوهشی.",
-                    "inLanguage" => "fa-IR",
-                    "mainEntity" => [
-                        "@id" => $siteUrl . "#organization"
-                    ]
+                    "name" => __('about.hero.title'),
+                    "description" => __('about.meta.description'),
+                    "inLanguage" => $locale === 'fa' ? 'fa-IR' : ($locale === 'ar' ? 'ar-SA' : 'en-US'),
+                    "mainEntity" => ["@id" => $siteUrl . "#organization"]
                 ],
-                // 2. Organization
                 [
                     "@type" => "Organization",
                     "@id" => $siteUrl . "#organization",
-                    "name" => "شرکت شهاب بالن",
+                    "name" => $locale === 'fa' ? 'شرکت شهاب بالن' : ($locale === 'ar' ? 'شركة شهاب بالون' : 'Shahbab Balloon Company'),
                     "alternateName" => "Shahab Balloon",
                     "url" => $siteUrl,
                     "logo" => asset('img/logo.png'),
-                    "description" => "فعالیت در زمینه طراحی، تولید و عرضه محصولات مرتبط با بالن‌های نظامی، تبلیغاتی و پژوهشی.",
+                    "description" => __('about.meta.description'),
                     "address" => [
                         "@type" => "PostalAddress",
                         "streetAddress" => "شهرک صنعتی هشتگرد",
@@ -959,7 +854,6 @@
                         "https://linkedin.com/company/shahab-balloon"
                     ]
                 ],
-                // 3. BreadcrumbList
                 [
                     "@type" => "BreadcrumbList",
                     "@id" => $aboutUrl . "#breadcrumb",
@@ -967,53 +861,45 @@
                         [
                             "@type" => "ListItem",
                             "position" => 1,
-                            "name" => "صفحه اصلی",
+                            "name" => $locale === 'fa' ? 'صفحه اصلی' : ($locale === 'ar' ? 'الرئيسية' : 'Home'),
                             "item" => $siteUrl
                         ],
                         [
                             "@type" => "ListItem",
                             "position" => 2,
-                            "name" => "درباره ما",
+                            "name" => $locale === 'fa' ? 'درباره ما' : ($locale === 'ar' ? 'من نحن' : 'About Us'),
                             "item" => $aboutUrl
                         ]
                     ]
                 ],
-                // 4. FAQPage
                 [
                     "@type" => "FAQPage",
                     "@id" => $aboutUrl . "#faq",
                     "mainEntity" => [
                         [
                             "@type" => "Question",
-                            "name" => "شرکت شهاب بالن در چه زمینه‌هایی فعالیت می‌کند؟",
-                            "acceptedAnswer" => [
-                                "@type" => "Answer",
-                                "text" => "شهاب بالن در سه حوزه اصلی بالن‌های نظامی، بالن‌های تبلیغاتی و بالن‌های پژوهشی (شامل هواشناسی و کاربردهای علمی) فعالیت می‌کند."
-                            ]
+                            "name" => __('about.faq.q1'),
+                            "acceptedAnswer" => ["@type" => "Answer", "text" => __('about.faq.a1')]
                         ],
                         [
                             "@type" => "Question",
-                            "name" => "آیا امکان سفارش محصولات سفارشی در هر سه حوزه وجود دارد؟",
-                            "acceptedAnswer" => [
-                                "@type" => "Answer",
-                                "text" => "امکان بررسی و طراحی سفارش‌های سفارشی بر اساس نوع کاربرد (نظامی، تبلیغاتی، پژوهشی)، ابعاد، مشخصات فنی و شرایط پروژه وجود دارد."
-                            ]
+                            "name" => __('about.faq.q2'),
+                            "acceptedAnswer" => ["@type" => "Answer", "text" => __('about.faq.a2')]
                         ],
                         [
                             "@type" => "Question",
-                            "name" => "چگونه می‌توان درباره ظرفیت تولید شرکت اطلاعات گرفت؟",
-                            "acceptedAnswer" => [
-                                "@type" => "Answer",
-                                "text" => "ظرفیت تولید به نوع محصول (نظامی، تبلیغاتی، پژوهشی)، ابعاد، مواد اولیه و مشخصات سفارش بستگی دارد و برای دریافت اطلاعات دقیق باید با شرکت تماس گرفت."
-                            ]
+                            "name" => __('about.faq.q3'),
+                            "acceptedAnswer" => ["@type" => "Answer", "text" => __('about.faq.a3')]
                         ],
                         [
                             "@type" => "Question",
-                            "name" => "آیا شرکت دارای مجوز و گواهی‌نامه است؟",
-                            "acceptedAnswer" => [
-                                "@type" => "Answer",
-                                "text" => "اطلاعات مجوزها و گواهی‌نامه‌های شرکت باید بر اساس مستندات رسمی و معتبر ارائه شود."
-                            ]
+                            "name" => __('about.faq.q4'),
+                            "acceptedAnswer" => ["@type" => "Answer", "text" => __('about.faq.a4')]
+                        ],
+                        [
+                            "@type" => "Question",
+                            "name" => __('about.faq.q5'),
+                            "acceptedAnswer" => ["@type" => "Answer", "text" => __('about.faq.a5')]
                         ]
                     ]
                 ]

@@ -1,52 +1,48 @@
 @extends('layouts.home')
 
+@php
+    $locale = app()->getLocale();
+    $isRtl  = in_array($locale, ['fa', 'ar'], true);
+@endphp
+
 @section('title', __('contact.title'))
+
+@section('meta')
+    <meta name="description" content="{{ __('contact.hero_description') }}">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url($locale . '/contact') }}">
+    <link rel="alternate" hreflang="fa" href="{{ url('fa/contact') }}">
+    <link rel="alternate" hreflang="ar" href="{{ url('ar/contact') }}">
+    <link rel="alternate" hreflang="en" href="{{ url('en/contact') }}">
+    <link rel="alternate" hreflang="x-default" href="{{ url('fa/contact') }}">
+@endsection
 
 @section('styles')
     <link rel="stylesheet"
-          href="{{ asset('css/contact/contact.css') }}?v=1"
+          href="{{ asset('css/contact/contact.css') }}?v=3"
           media="print"
           onload="this.media='all'">
 @endsection
 
 @section('content')
-    @php
-        // زبان جاری
-        $currentLocale = app()->getLocale();
 
-        // زبان‌های پشتیبانی‌شده
-        $supportedLocales = [
-            'fa' => 'فارسی',
-            'ar' => 'العربية',
-            'en' => 'English',
-        ];
+    <div class="contact-page" dir="{{ $isRtl ? 'rtl' : 'ltr' }}">
 
-        // آیکون‌های نوع فعالیت
-        $activityIcons = [
-            'commerce'       => 'fa-shopping-cart',
-            'logistics'      => 'fa-truck',
-            'exhibition'     => 'fa-store',
-            'exports'        => 'fa-ship',
-            'imports'        => 'fa-plane-arrival',
-            'global_markets' => 'fa-globe',
-        ];
-    @endphp
-
-    <div class="contact-page">
-
-        {{-- Hero Section --}}
+        {{-- ============ HERO ============ --}}
         <section class="contact-hero">
             <div class="container">
                 <div class="contact-hero-content">
-                    <span class="section-label">{{ __('contact.label') }}</span>
+                <span class="section-label">
+                    <i class="bi bi-chat-dots-fill"></i>
+                    {{ __('contact.label') }}
+                </span>
                     <h1>{{ __('contact.hero_title') }}</h1>
                     <p>{{ __('contact.hero_description') }}</p>
                 </div>
             </div>
         </section>
 
-
-        {{-- Contact Information --}}
+        {{-- ============ CONTACT INFO CARDS ============ --}}
         <section class="contact-information-section">
             <div class="container">
 
@@ -56,86 +52,45 @@
                     <p>{{ __('contact.info_description') }}</p>
                 </div>
 
-                <div class="contact-information-grid">
-
-                    {{-- Head Office --}}
-                    <div class="contact-info-card">
-                        <div class="contact-info-icon">
-                            <i class="bi bi-building"></i>
-                        </div>
-                        <div class="contact-info-content">
-                            <span class="contact-info-label">{{ __('contact.office') }}</span>
-                            <h3>{{ __('contact.office_title') }}</h3>
-                            <p>{{ __('contact.office_description') }}</p>
-                        </div>
-                    </div>
-
-                    {{-- Phone --}}
-                    <div class="contact-info-card">
-                        <div class="contact-info-icon">
-                            <i class="bi bi-telephone"></i>
-                        </div>
-                        <div class="contact-info-content">
-                            <span class="contact-info-label">{{ __('contact.phone_label') }}</span>
-                            <h3>{{ $contact?->phone ?? __('contact.not_available') }}</h3>
-                            @if(!empty($contact?->phone))
-                                <a href="tel:{{ $contact->phone }}">{{ __('contact.call_us') }}</a>
-                            @endif
-                        </div>
-                    </div>
-
-                    {{-- Instagram --}}
-                    <div class="contact-info-card">
-                        <div class="contact-info-icon">
-                            <i class="bi bi-instagram"></i>
-                        </div>
-                        <div class="contact-info-content">
-                            <span class="contact-info-label">اینستاگرام</span>
-                            <h3>{{ $contact?->whatsapp ?? __('contact.not_available') }}</h3>
-                            @if(!empty($contact?->whatsapp))
-                                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $contact->whatsapp) }}"
-                                   target="_blank" rel="noopener">
-                                    {{ __('contact.whatsapp_us') }}
-                                </a>
-                            @endif
-                        </div>
-                    </div>
-
-                    {{-- Email --}}
-                    <div class="contact-info-card">
-                        <div class="contact-info-icon">
-                            <i class="bi bi-envelope"></i>
-                        </div>
-                        <div class="contact-info-content">
-                            <span class="contact-info-label">{{ __('contact.email_label') }}</span>
-                            <h3>{{ $contact?->email ?? __('contact.not_available') }}</h3>
-                            @if(!empty($contact?->email))
-                                <a href="mailto:{{ $contact->email }}">{{ __('contact.email_us') }}</a>
-                            @endif
-                        </div>
-                    </div>
+                <div class="contact-info-grid">
 
                     {{-- Address --}}
-                    <div class="contact-info-card contact-info-card-wide">
-                        <div class="contact-info-icon">
-                            <i class="bi bi-geo-alt"></i>
+                    <a href="https://maps.google.com/?q=Hashtgerd+Industrial+Zone+Tehran"
+                       target="_blank" rel="noopener"
+                       class="info-card info-card--address">
+                        <div class="info-card-icon">
+                            <i class="bi bi-geo-alt-fill"></i>
                         </div>
-                        <div class="contact-info-content">
-                            <span class="contact-info-label">{{ __('contact.address_label') }}</span>
+                        <div class="info-card-body">
+                            <span class="info-card-label">{{ __('contact.address_label') }}</span>
                             <h3>{{ __('contact.address_title') }}</h3>
-                            <p>{{ $contact?->address ?? __('contact.not_available') }}</p>
+                            <p>{{ __('contact.address_value') }}</p>
                         </div>
-                    </div>
+                        <span class="info-card-arrow">→</span>
+                    </a>
+
+                    {{-- Phone --}}
+                    <a href="tel:+989191919885" class="info-card info-card--phone">
+                        <div class="info-card-icon">
+                            <i class="bi bi-telephone-fill"></i>
+                        </div>
+                        <div class="info-card-body">
+                            <span class="info-card-label">{{ __('contact.phone_label') }}</span>
+                            <h3>{{ __('contact.phone_title') }}</h3>
+                            <p class="info-card-phone" dir="ltr">{{ __('contact.phone_value') }}</p>
+                        </div>
+                        <span class="info-card-arrow">→</span>
+                    </a>
 
                     {{-- Working Hours --}}
-                    <div class="contact-info-card contact-info-card-wide">
-                        <div class="contact-info-icon">
-                            <i class="bi bi-clock"></i>
+                    <div class="info-card info-card--hours">
+                        <div class="info-card-icon">
+                            <i class="bi bi-clock-fill"></i>
                         </div>
-                        <div class="contact-info-content">
-                            <span class="contact-info-label">{{ __('contact.working_hours_label') }}</span>
+                        <div class="info-card-body">
+                            <span class="info-card-label">{{ __('contact.working_hours_label') }}</span>
                             <h3>{{ __('contact.working_hours_title') }}</h3>
-                            <p>{{ $contact?->working_hours ?? __('contact.not_available') }}</p>
+                            <p>{{ __('contact.working_hours_value') }}</p>
                         </div>
                     </div>
 
@@ -143,73 +98,7 @@
             </div>
         </section>
 
-
-        {{-- Address & Map --}}
-        <section class="contact-location-section">
-            <div class="container">
-                <div class="contact-location-grid">
-
-                    {{-- ستون متن --}}
-                    <div class="contact-location-content">
-
-                        <span class="section-label">{{ __('contact.location_label') }}</span>
-                        <h2>{{ __('contact.location_title') }}</h2>
-                        <p>{{ __('contact.location_description') }}</p>
-
-                        @if(!empty($contact?->address))
-                            <div class="contact-address">
-                                <div class="contact-address-icon">
-                                    <i class="bi bi-geo-alt"></i>
-                                </div>
-                                <div>
-                                    <strong>{{ __('contact.address_label') }}</strong>
-                                    <p>{{ $contact->address }}</p>
-                                </div>
-                            </div>
-                        @endif
-
-                        @if(!empty($contact?->working_hours))
-                            <div class="contact-working-hours">
-                                <div class="contact-address-icon">
-                                    <i class="bi bi-clock"></i>
-                                </div>
-                                <div>
-                                    <strong>{{ __('contact.working_hours_label') }}</strong>
-                                    <p>{{ $contact->working_hours }}</p>
-                                </div>
-                            </div>
-                        @endif
-
-                    </div>
-
-                    {{-- ستون نقشه --}}
-                    <div class="contact-map">
-
-                        @if(!empty($contact?->google_map))
-
-                            {!! $contact->google_map !!}
-
-                        @else
-
-                            <img
-                                src="https://api.neshan.org/v5/static?key={{ config('services.neshan.key') }}&style=light&width=600&height=450&zoom=15&latitude=35.231&longitude=58.464&marker=red"
-                                alt="{{ __('contact.location_title') }}"
-                                width="600"
-                                height="450"
-                                loading="lazy"
-                                style="width: 100%; height: auto; border-radius: 8px;"
-                            >
-
-                        @endif
-
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-
-        {{-- Contact Form --}}
+        {{-- ============ CONTACT FORM ============ --}}
         <section class="contact-form-section">
             <div class="container">
 
@@ -223,6 +112,7 @@
 
                     @if(session('success'))
                         <div class="alert alert-success" role="alert">
+                            <i class="bi bi-check-circle-fill"></i>
                             {{ session('success') }}
                         </div>
                     @endif
@@ -238,67 +128,74 @@
                         </div>
                     @endif
 
-                        <form action="{{ route('contact.store', ['locale' => app()->getLocale()]) }}" method="POST" class="contact-form" novalidate>                        @csrf
-@csrf
-                        {{-- Name --}}
-                        <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-                            <label for="name">{{ __('contact.name') }} <span>*</span></label>
-                            <input type="text" id="name" name="name"
-                                   value="{{ old('name') }}"
-                                   placeholder="{{ __('contact.name_placeholder') }}">
-                            @error('name')
-                            <small class="form-error">{{ $message }}</small>
-                            @enderror
+                    <form action="{{ route('contact.store', ['locale' => $locale]) }}"
+                          method="POST"
+                          class="contact-form"
+                          novalidate>
+                        @csrf
+
+                        <div class="form-row">
+                            {{-- Name --}}
+                            <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
+                                <label for="name">{{ __('contact.name') }} <span>*</span></label>
+                                <input type="text" id="name" name="name"
+                                       value="{{ old('name') }}"
+                                       placeholder="{{ __('contact.name_placeholder') }}">
+                                @error('name')
+                                <small class="form-error">{{ $message }}</small>
+                                @enderror
+                            </div>
+
+                            {{-- Email --}}
+                            <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
+                                <label for="email">{{ __('contact.email') }} <span>*</span></label>
+                                <input type="email" id="email" name="email"
+                                       value="{{ old('email') }}"
+                                       placeholder="{{ __('contact.email_placeholder') }}">
+                                @error('email')
+                                <small class="form-error">{{ $message }}</small>
+                                @enderror
+                            </div>
                         </div>
 
-                        {{-- Email --}}
-                        <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
-                            <label for="email">{{ __('contact.email') }} <span>*</span></label>
-                            <input type="email" id="email" name="email"
-                                   value="{{ old('email') }}"
-                                   placeholder="{{ __('contact.email_placeholder') }}">
-                            @error('email')
-                            <small class="form-error">{{ $message }}</small>
-                            @enderror
-                        </div>
+                        <div class="form-row">
+                            {{-- Phone --}}
+                            <div class="form-group {{ $errors->has('phone') ? 'has-error' : '' }}">
+                                <label for="phone">{{ __('contact.phone') }}</label>
+                                <input type="text" id="phone" name="phone"
+                                       value="{{ old('phone') }}"
+                                       placeholder="{{ __('contact.phone_placeholder') }}">
+                                @error('phone')
+                                <small class="form-error">{{ $message }}</small>
+                                @enderror
+                            </div>
 
-                        {{-- Phone --}}
-                        <div class="form-group {{ $errors->has('phone') ? 'has-error' : '' }}">
-                            <label for="phone">{{ __('contact.phone') }}</label>
-                            <input type="text" id="phone" name="phone"
-                                   value="{{ old('phone') }}"
-                                   placeholder="{{ __('contact.phone_placeholder') }}">
-                            @error('phone')
-                            <small class="form-error">{{ $message }}</small>
-                            @enderror
-                        </div>
-
-                        {{-- Subject --}}
-                        <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
-                            <label for="subject">{{ __('contact.subject') }} <span>*</span></label>
-                            <input type="text" id="subject" name="title"
-                                   value="{{ old('title') }}"
-                                   placeholder="{{ __('contact.subject_placeholder') }}">
-                            @error('subject')
-                            <small class="form-error">{{ $message }}</small>
-                            @enderror
+                            {{-- Subject --}}
+                            <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
+                                <label for="subject">{{ __('contact.subject') }} <span>*</span></label>
+                                <input type="text" id="subject" name="title"
+                                       value="{{ old('title') }}"
+                                       placeholder="{{ __('contact.subject_placeholder') }}">
+                                @error('title')
+                                <small class="form-error">{{ $message }}</small>
+                                @enderror
+                            </div>
                         </div>
 
                         {{-- Message --}}
-                        <div class="form-group form-group-full {{ $errors->has('description') ? 'has-error' : '' }}">
+                        <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
                             <label for="message">{{ __('contact.message') }} <span>*</span></label>
                             <textarea id="message" name="description" rows="6"
                                       placeholder="{{ __('contact.message_placeholder') }}">{{ old('description') }}</textarea>
-                            @error('message')
+                            @error('description')
                             <small class="form-error">{{ $message }}</small>
                             @enderror
                         </div>
 
-                        {{-- Submit --}}
-                        <div class="form-submit form-group-full">
+                        <div class="form-submit">
                             <button type="submit" class="btn btn-primary" id="contact-submit-btn">
                                 {{ __('contact.submit') }}
-                                <span class="btn-arrow">→</span>
+                                <i class="bi bi-send-fill"></i>
                             </button>
                         </div>
 
@@ -307,19 +204,18 @@
             </div>
         </section>
 
-
-        {{-- CTA --}}
+        {{-- ============ CTA ============ --}}
         <section class="contact-cta">
             <div class="container">
                 <div class="contact-cta-content">
                     <span class="section-label">{{ __('contact.cta_label') }}</span>
                     <h2>{{ __('contact.cta_title') }}</h2>
                     <p>{{ __('contact.cta_description') }}</p>
-                    @if(!empty($contact?->phone))
-                        <a href="tel:{{ $contact->phone }}" class="btn btn-outline">
-                            {{ __('contact.call_us') }}
-                        </a>
-                    @endif
+
+                    <a href="tel:+989191919885" class="btn btn-outline">
+                        <i class="bi bi-telephone-fill"></i>
+                        {{ __('contact.call_us') }}
+                    </a>
                 </div>
             </div>
         </section>

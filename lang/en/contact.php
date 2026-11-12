@@ -1,110 +1,56 @@
 <?php
 
 return [
-
-    'title' => 'Contact Us',
+    'title' => 'Contact Shahbab Balloon | Manufacturer of Military, Promotional & Research Balloons',
 
     'label' => 'Contact Us',
+    'hero_title' => 'Contact Shahbab Balloon',
+    'hero_description' => 'For consultation, placing orders, or obtaining product information in military, promotional and research fields, get in touch with the specialized Shahbab Balloon team.',
 
-    'hero_title' => 'Get in Touch With Us',
-
-    'hero_description' => 'Contact us for more information, business opportunities, and answers to your questions.',
-
-
-    // Contact Information
-
+    // Info section
     'info_label' => 'Contact Information',
+    'info_title' => 'Ways to Reach Us',
+    'info_description' => 'You can contact the Shahbab Balloon team through the following ways.',
 
-    'info_title' => 'Ways to Contact Us',
+    // Address
+    'address_label' => 'Address',
+    'address_title' => 'Head Office Address',
+    'address_value' => 'Tehran, Shahriar County, Hashtgerd Industrial Zone',
 
-    'info_description' => 'You can contact Amir Afaq Gostar Pars through the following communication channels.',
-
-    'office' => 'Head Office',
-
-    'office_title' => 'Amir Afaq Gostar Pars',
-
-    'office_description' => 'Our head office is ready to respond to your inquiries and connect with customers and business partners.',
-
+    // Phone
     'phone_label' => 'Phone',
-
+    'phone_title' => 'Direct Contact Number',
+    'phone_value' => '+98 919 191 9885',
     'call_us' => 'Call Us',
 
-    'whatsapp_label' => 'WhatsApp',
-
-    'whatsapp_us' => 'Contact Us on WhatsApp',
-
-    'email_label' => 'Email',
-
-    'email_us' => 'Send Email',
-
-    'address_label' => 'Address',
-
-    'address_title' => 'Head Office Address',
-
+    // Working hours
     'working_hours_label' => 'Working Hours',
+    'working_hours_title' => 'Response Hours',
+    'working_hours_value' => 'Saturday to Wednesday, 9:00 AM – 5:00 PM',
 
-    'working_hours_title' => 'Business Hours',
-
-    'not_available' => 'Not available',
-
-
-    // Location
-
-    'location_label' => 'Office Location',
-
-    'location_title' => 'Find Us',
-
-    'location_description' => 'Use the map below to view the location of our head office and find your way to us more easily.',
-
-    'map_not_available' => 'The map is currently unavailable.',
-
-
-    // Contact Form
-
-    'form_label' => 'Contact Form',
-
-    'form_title' => 'Send Us a Message',
-
-    'form_description' => 'Complete the form below. Our team will review your request and get back to you as soon as possible.',
+    // Form
+    'form_label' => 'Send a Message',
+    'form_title' => 'Contact Form',
+    'form_description' => 'To receive consultation or submit a request, please fill out the form below. Our experts will contact you as soon as possible.',
 
     'name' => 'Full Name',
-
     'name_placeholder' => 'Enter your full name',
-
     'email' => 'Email',
-
-    'email_placeholder' => 'Enter your email address',
-
-    'phone' => 'Phone Number',
-
-    'phone_placeholder' => 'Enter your phone number',
-
+    'email_placeholder' => 'example@email.com',
+    'phone' => 'Phone',
+    'phone_placeholder' => '+989123456789',
     'subject' => 'Subject',
-
     'subject_placeholder' => 'Enter the subject of your message',
-
     'message' => 'Message',
-
-    'message_placeholder' => 'Enter your message',
-
+    'message_placeholder' => 'Write your details and request...',
     'submit' => 'Send Message',
 
-
-    // Validation
-
     'validation' => [
-
-        'errors_title' => 'Please check the following errors.',
-
+        'errors_title' => 'Please review the following errors:',
     ],
 
-
     // CTA
-
-    'cta_label' => 'Get in Touch',
-
-    'cta_title' => 'We Are Ready to Work With You',
-
-    'cta_description' => 'Contact our team to start a business partnership, get more information, or receive answers to your questions.',
-
+    'cta_label' => 'Collaborate with Us',
+    'cta_title' => 'We Are Ready to Collaborate with You',
+    'cta_description' => 'To receive consultation, place an order, or explore collaboration opportunities, contact Shahbab Balloon experts.',
 ];

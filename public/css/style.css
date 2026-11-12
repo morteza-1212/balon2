@@ -51,7 +51,10 @@ body { color: var(--bs-body-text); }
 .bg-primary   { background-color: var(--bs-primary) !important; }
 .text-secondary { color: var(--bs-secondary) !important; }
 .bg-secondary { background-color: var(--bs-secondary) !important; }
-
+body {
+    overflow-x: hidden;
+    overflow-y: visible;
+}
 
 /* ============================================================
    SPINNER

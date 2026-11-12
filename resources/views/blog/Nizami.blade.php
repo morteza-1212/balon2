@@ -22,24 +22,8 @@
     <meta name="twitter:title" content="{{ __('nizami.header.title') }}">
     <meta name="twitter:description" content="{{ __('nizami.header.subtitle') }}">
 @endsection
-
-@section('content')
+@section('styles')
     <style>
-        /* =========================================================
-           ⚠ FORCE FIX — رفع overflow مشکل‌ساز از MAIN و BODY
-           این بخش حیاتی است: sticky فقط زمانی کار می‌کند
-           که هیچ‌کدام از والدین overflow نداشته باشند
-        ========================================================= */
-        main {
-            overflow: visible !important;
-            overflow-x: visible !important;
-            overflow-y: visible !important;
-        }
-        body {
-            overflow-x: hidden !important;
-            overflow-y: visible !important;
-        }
-
         /* =========================================================
            VARIABLES
         ========================================================= */
@@ -242,51 +226,42 @@
         }
 
         /* =========================================================
-           MAIN LAYOUT — Grid: تصویر چپ (۳۰٪) + متن راست (۷۰٪)
-           ⚠ overflow: visible روی والد — حیاتی برای sticky
+           MAIN LAYOUT — تصویر چپ ۳۰٪ و متن راست ۷۰٪
+           ستون تصویر به ارتفاع ستون متن کشیده می‌شود تا sticky
+           در تمام طول مقاله امکان حرکت و چسبیدن داشته باشد.
         ========================================================= */
         .article-layout {
+            width: 100%;
             max-width: 1400px;
             margin: 0 auto;
             padding: 70px 20px 90px;
             display: grid;
-            grid-template-columns: 30% 1fr;
+            grid-template-columns: minmax(0, 3fr) minmax(0, 7fr);
             gap: 50px;
-            align-items: start;
-            /* ⚠ حیاتی: هیچ overflow روی والد نباشد */
+            align-items: stretch;
             overflow: visible;
         }
 
-        /* =========================================================
-           STICKY SIDE — ساختار:
-           .article-side (wrapper، position: relative)
-             └── .article-sticky (position: sticky)
-                   └── .article-image-card
-           ========================================================= */
-        /* =========================================================
-        STICKY SIDE
-        .article-side (wrapper)
-          └── .article-sticky (position: sticky با top)
-                └── .article-image-card
-     ========================================================= */
+        /* ستون تصویر: حتماً هم‌ارتفاع ستون متن باشد */
         .article-side {
             grid-column: 1;
             grid-row: 1;
-            align-self: start;
+            align-self: stretch;
+            min-width: 0;
             width: 100%;
             position: relative;
-            /* ⚠ هیچ margin-top، sticky، fixed اینجا نباشد */
+            overflow: visible;
         }
 
+        /* خود تصویر در محدوده ستون بلند مقاله sticky می‌ماند */
         .article-sticky {
             position: -webkit-sticky;
             position: sticky;
-            top: 90px;           /* ← حیاتی */
+            top: var(--sticky-top);
             width: 100%;
             z-index: 20;
-            align-self: start;
-        }
 
+        }
 
         .article-content {
             grid-column: 2;
@@ -783,9 +758,10 @@
         ========================================================= */
         @media (max-width: 1100px) {
             .article-layout {
-                grid-template-columns: 1fr;
+                grid-template-columns: minmax(0, 1fr);
                 gap: 30px;
                 padding: 50px 20px 70px;
+                align-items: start;
             }
 
             .article-side {
@@ -793,9 +769,6 @@
                 grid-row: 1;
                 align-self: start;
                 width: 100%;
-                position: relative;
-                /* ⚠ margin-top حذف شد */
-                /* ⚠ position: sticky حذف شد — sticky روی .article-sticky است */
             }
 
             .article-sticky {
@@ -909,8 +882,21 @@
             .article-content h3 { font-size: 16px; }
             .article-meta span { font-size: 11px; padding: 6px 12px; }
         }
+        main {
+            width: 100%;
+            min-height: 300px;
+            overflow: visible;   /* ← تغییر از hidden به visible */
+        }
 
     </style>
+
+
+@endsection
+
+@section('content')
+
+
+
 
     <div class="reading-progress" id="readingProgress"></div>
 
@@ -935,7 +921,7 @@
 
             {{-- ستون تصویر: .article-side > .article-sticky > .article-image-card --}}
             <aside class="article-side" aria-label="{{ __('nizami.header.category') }}">
-                <div class="article-sticky">
+                <div class="article-sticky" >
                     <div class="article-image-card">
                         <span class="article-image-badge">{{ __('nizami.header.badge') }}</span>
                         <img
@@ -945,6 +931,7 @@
                             decoding="async"
                             width="800"
                             height="1000"
+
                         >
                         <div class="article-image-caption">
                             <h4>{{ __('nizami.header.category') }}</h4>

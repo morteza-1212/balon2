@@ -130,7 +130,7 @@
             width: 100%;
             min-height: 100%;
             scroll-behavior: smooth;
-            overflow-x: hidden;
+            /*overflow-x: hidden;*/
         }
 
         body {
@@ -1216,6 +1216,15 @@
         @keyframes floatingCallPulse {
             0%, 100% { box-shadow: 0 6px 22px rgba(10, 31, 68, 0.3); }
             50%      { box-shadow: 0 6px 28px rgba(242, 107, 33, 0.45); }
+        }
+        main {
+            width: 100%;
+            min-height: 300px;
+            overflow: visible;   /* ← تغییر از hidden به visible */
+        }
+        body {
+            overflow-x: hidden;
+            overflow-y: visible;
         }
     </style>
 
