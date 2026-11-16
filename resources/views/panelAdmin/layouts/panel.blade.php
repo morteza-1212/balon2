@@ -6,15 +6,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'پنل مدیریت') | شرکت خدمات رایانه‌ای تختی</title>
 
-    <!-- Font Awesome -->
+    {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Bootstrap -->
+    {{-- Bootstrap --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
           crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
     {{-- jQuery --}}
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 
@@ -26,7 +27,6 @@
           href="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css">
     <script src="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
 
-    {{-- استایل اختصاصی هر صفحه --}}
     @stack('styles')
 
     <style>
@@ -45,15 +45,9 @@
             --transition: all 0.3s ease;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html, body {
-            overflow-x: hidden;
-        }
+        html, body { overflow-x: hidden; }
 
         body {
             font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -80,7 +74,7 @@
         }
 
         .sidebar-header {
-            padding: 0 20px 30px;
+            padding: 0 20px 20px;
             text-align: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             flex-shrink: 0;
@@ -91,95 +85,76 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
-        .logo-icon {
-            font-size: 28px;
-            color: var(--secondary-color);
-        }
-
-        .logo-text {
-            font-size: 20px;
-            font-weight: 700;
-        }
+        .logo-icon { font-size: 28px; color: var(--secondary-color); }
+        .logo-text { font-size: 20px; font-weight: 700; }
 
         .sidebar-user {
             text-align: center;
-            padding: 15px;
+            padding: 12px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: var(--border-radius);
-            margin: 0 15px 20px;
+            margin: 15px;
             flex-shrink: 0;
         }
 
         .user-avatar {
-            width: 60px;
-            height: 60px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--secondary-color), var(--info-color));
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 10px;
-            font-size: 24px;
+            font-size: 22px;
             color: white;
         }
 
-        .user-name {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .user-role {
-            font-size: 14px;
-            color: #bdc3c7;
-        }
+        .user-name { font-weight: 600; margin-bottom: 4px; font-size: 14px; }
+        .user-role { font-size: 12px; color: #bdc3c7; }
 
         /* Navigation */
         .nav-links {
             list-style: none;
-            padding: 0 15px;
+            padding: 0 12px;
             overflow-y: auto;
             flex: 1;
         }
 
-        .nav-links::-webkit-scrollbar {
-            width: 5px;
-        }
-
+        .nav-links::-webkit-scrollbar { width: 5px; }
         .nav-links::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, 0.2);
             border-radius: 10px;
         }
 
-        .nav-item {
-            margin-bottom: 5px;
-        }
+        .nav-item { margin-bottom: 3px; }
 
         .nav-section-title {
             font-size: 11px;
             text-transform: uppercase;
             color: #7f8c8d;
-            padding: 15px 15px 8px;
+            padding: 14px 12px 6px;
             letter-spacing: 1px;
         }
 
         .nav-link {
             display: flex;
             align-items: center;
-            padding: 12px 15px;
+            padding: 10px 14px;
             color: #bdc3c7;
             text-decoration: none;
             border-radius: var(--border-radius);
             transition: var(--transition);
             gap: 12px;
+            font-size: 14px;
         }
 
         .nav-link:hover {
             background: rgba(255, 255, 255, 0.1);
             color: white;
-            transform: translateX(-5px);
         }
 
         .nav-link.active {
@@ -189,26 +164,69 @@
         }
 
         .nav-link i {
-            font-size: 18px;
-            width: 24px;
+            font-size: 16px;
+            width: 22px;
             text-align: center;
             flex-shrink: 0;
         }
 
-        .nav-text {
-            flex-grow: 1;
-        }
+        .nav-text { flex-grow: 1; }
 
-        .badge {
+        .nav-link .badge {
             background: var(--danger-color);
             color: white;
             padding: 2px 8px;
             border-radius: 10px;
-            font-size: 12px;
+            font-size: 11px;
+        }
+
+        /* Dropdown داخل سایدبار */
+        .nav-item.dropdown .dropdown-toggle::after {
+            margin-right: auto;
+            margin-left: 0;
+            border-top-color: currentColor;
+        }
+
+        .nav-item.dropdown .dropdown-menu {
+            position: static !important;
+            transform: none !important;
+            background: rgba(0, 0, 0, 0.15);
+            border: none;
+            padding: 4px 0;
+            margin: 4px 0 0 8px;
+            border-radius: var(--border-radius);
+        }
+
+        .nav-item.dropdown .dropdown-item {
+            color: #bdc3c7;
+            padding: 8px 14px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        .nav-item.dropdown .dropdown-item:hover,
+        .nav-item.dropdown .dropdown-item.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-item.dropdown .dropdown-item i {
+            font-size: 14px;
+            width: 18px;
+            text-align: center;
+        }
+
+        .nav-item.dropdown .dropdown-item .badge {
+            margin-right: auto;
+            font-size: 10px;
         }
 
         .sidebar-footer {
-            padding: 20px 15px;
+            padding: 12px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             flex-shrink: 0;
         }
@@ -221,7 +239,6 @@
             transition: var(--transition);
         }
 
-        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -234,17 +251,8 @@
             height: 70px;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .header-right { display: flex; align-items: center; gap: 15px; }
 
         .toggle-sidebar {
             background: none;
@@ -256,114 +264,58 @@
             display: none;
         }
 
-        .toggle-sidebar:hover {
-            color: var(--secondary-color);
-        }
+        .toggle-sidebar:hover { color: var(--secondary-color); }
 
         .page-title {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
             color: var(--primary-color);
             margin: 0;
         }
 
-        /* Notification */
-        .notification {
-            position: relative;
-        }
-
-        .notification-btn {
-            background: none;
-            border: none;
-            color: var(--primary-color);
-            font-size: 20px;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .notification-count {
-            position: absolute;
-            top: -5px;
-            left: -5px;
-            background: var(--danger-color);
-            color: white;
-            font-size: 12px;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
         /* Cards */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .card {
+        .admin-card {
             background: white;
             border-radius: var(--border-radius);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-            transition: var(--transition);
-            border: none;
+            padding: 25px;
+            margin-bottom: 25px;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-header {
-            background: linear-gradient(135deg, var(--secondary-color), #2980b9);
-            color: white;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .card-icon {
-            font-size: 30px;
-            opacity: 0.8;
-        }
-
-        .card-body {
-            padding: 20px;
-        }
-
-        .card-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--primary-color);
-        }
-
-        .card-text {
-            color: #666;
+        .admin-card-header {
+            padding-bottom: 18px;
+            border-bottom: 2px solid #f1f1f1;
             margin-bottom: 20px;
-            line-height: 1.6;
         }
 
-        .stats-number {
-            font-size: 28px;
+        .admin-card-title {
+            font-size: 20px;
             font-weight: 700;
             color: var(--primary-color);
-            margin-bottom: 5px;
+            margin: 0;
         }
 
-        .stats-label {
-            color: #666;
-            font-size: 14px;
+        /* Tables */
+        .table-responsive {
+            border-radius: var(--border-radius);
+            overflow: hidden;
         }
+
+        .table { margin: 0; }
+
+        .table th {
+            background: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            font-weight: 600;
+            color: var(--primary-color);
+            white-space: nowrap;
+        }
+
+        .table td { vertical-align: middle; }
 
         /* Buttons */
         .btn {
-            padding: 10px 20px;
+            padding: 8px 18px;
             border: none;
             border-radius: var(--border-radius);
             cursor: pointer;
@@ -374,6 +326,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            font-size: 14px;
         }
 
         .btn-primary {
@@ -396,143 +349,34 @@
             color: white;
         }
 
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            color: white;
         }
 
-        /* Dashboard Sections */
-        .section {
-            background: white;
+        .btn-sm { padding: 5px 12px; font-size: 12px; }
+
+        /* Alerts */
+        .alert {
             border-radius: var(--border-radius);
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: none;
         }
 
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #f1f1f1;
-        }
-
-        .section-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin: 0;
-        }
-
-        /* Tables */
-        .table-responsive {
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .table {
-            margin: 0;
-        }
-
-        .table th {
-            background: #f8f9fa;
-            border-bottom: 2px solid #dee2e6;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        .table td {
-            vertical-align: middle;
-        }
-
-        .status-badge {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .status-active {
-            background: rgba(39, 174, 96, 0.1);
-            color: var(--success-color);
-        }
-
-        .status-pending {
-            background: rgba(243, 156, 18, 0.1);
-            color: var(--warning-color);
-        }
-
-        .status-inactive {
-            background: rgba(231, 76, 60, 0.1);
-            color: var(--danger-color);
-        }
-
-        /* Progress Bars */
-        .progress {
-            height: 10px;
-            border-radius: 5px;
-            background: #ecf0f1;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            border-radius: 5px;
-        }
-
-        /* Charts */
-        .chart-container {
-            position: relative;
-            height: 300px;
-            margin: 20px 0;
-        }
-
-        /* Quick Actions */
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .action-btn {
-            background: white;
-            border: 2px solid #f1f1f1;
-            border-radius: var(--border-radius);
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            color: var(--primary-color);
-        }
-
-        .action-btn:hover {
-            border-color: var(--secondary-color);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.1);
-        }
-
-        .action-icon {
-            font-size: 30px;
-            margin-bottom: 10px;
-            color: var(--secondary-color);
-        }
-
-        /* Search Bar */
-        .search-box {
-            position: relative;
-            max-width: 400px;
-        }
+        /* Search box */
+        .search-box { position: relative; max-width: 400px; }
 
         .search-box input {
             width: 100%;
-            padding: 10px 40px 10px 15px;
+            padding: 8px 38px 8px 14px;
             border: 2px solid #ecf0f1;
             border-radius: var(--border-radius);
-            font-size: 14px;
+            font-size: 13px;
             transition: var(--transition);
         }
 
@@ -543,43 +387,50 @@
 
         .search-box i {
             position: absolute;
-            left: 15px;
+            left: 14px;
             top: 50%;
             transform: translateY(-50%);
             color: #95a5a6;
+            font-size: 13px;
         }
 
-        /* Tabs */
-        .nav-tabs {
-            border-bottom: 2px solid #ecf0f1;
-        }
+        /* Notification */
+        .notification { position: relative; }
 
-        .nav-tabs .nav-link {
-            border: none;
-            color: #666;
-            font-weight: 600;
-            padding: 10px 20px;
-        }
-
-        .nav-tabs .nav-link.active {
-            color: var(--secondary-color);
-            border-bottom: 2px solid var(--secondary-color);
+        .notification-btn {
             background: none;
+            border: none;
+            color: var(--primary-color);
+            font-size: 18px;
+            cursor: pointer;
+            position: relative;
         }
 
-        /* Overlay for mobile sidebar */
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            background: var(--danger-color);
+            color: white;
+            font-size: 10px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Overlay */
         .sidebar-overlay {
             display: none;
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.4);
             z-index: 999;
-            animation: fadeIn 0.2s ease;
         }
 
-        .sidebar-overlay.active {
-            display: block;
-        }
+        .sidebar-overlay.active { display: block; }
 
         /* ═══════════════════ Responsive ═══════════════════ */
         @media (max-width: 992px) {
@@ -588,30 +439,22 @@
                 width: 280px;
             }
 
-            .sidebar.active {
-                transform: translateX(0);
-            }
+            .sidebar.active { transform: translateX(0); }
 
             .main-content {
                 margin-right: 0;
                 padding: 15px;
             }
 
-            .toggle-sidebar {
-                display: inline-flex;
-            }
-
-            .cards-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            }
+            .toggle-sidebar { display: inline-flex; }
         }
 
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
                 height: auto;
-                padding: 15px;
-                gap: 15px;
+                padding: 12px 15px;
+                gap: 12px;
             }
 
             .header-left,
@@ -620,18 +463,8 @@
                 justify-content: space-between;
             }
 
-            .cards-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .quick-actions {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            }
-
-            .search-box {
-                max-width: 100%;
-                flex: 1;
-            }
+            .search-box { max-width: 100%; flex: 1; }
+            .page-title { font-size: 18px; }
         }
 
         /* Animation */
@@ -640,53 +473,38 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .fade-in {
-            animation: fadeIn 0.5s ease forwards;
-        }
-
-        /* Dark Mode Support */
-        .dark-mode {
-            background: #1a1a2e;
-            color: #e0e0e0;
-        }
-
-        .dark-mode .card,
-        .dark-mode .section,
-        .dark-mode .header {
-            background: #16213e;
-            color: #e0e0e0;
-        }
-
-        .dark-mode .table th {
-            background: #0f3460;
-            color: #e0e0e0;
-        }
-
-        .dark-mode .table td {
-            color: #e0e0e0;
-        }
-
-        .dark-mode .search-box input {
-            background: #0f3460;
-            border-color: #0f3460;
-            color: #e0e0e0;
-        }
+        .fade-in { animation: fadeIn 0.5s ease forwards; }
     </style>
     @yield('styles')
 </head>
 <body>
 
 @php
-    // شمارش‌ها برای نمایش در سایدبار
+    /**
+     * شمارش‌های امن برای سایدبار — هر مدلی که وجود نداشت، صفر نمایش داده می‌شود
+     */
+    $safeCount = function (string $modelClass) {
+        try {
+            return class_exists($modelClass) ? $modelClass::count() : 0;
+        } catch (\Throwable $e) {
+            return 0;
+        }
+    };
+
     $counts = [
-        'categories'    => \App\Models\Category::count(),
-        'products'      => \App\Models\Product::count(),
-        'catalogs'      => \App\Models\Catalog::count(),
-        'gallery'       => \App\Models\Gallery::count(),
-        'trades'        => \App\Models\TradeTransaction::count(),
-        'buyers'        => \App\Models\Buyer::count(),
-        'contacts'      => \App\Models\Contact::count(),
-        'productExports'=> \App\Models\ProductExport::count(),
+        'categories'       => $safeCount(\App\Models\Category::class),
+        'products'         => $safeCount(\App\Models\Product::class),
+        'catalogs'         => $safeCount(\App\Models\Catalog::class),
+        'gallery'          => $safeCount(\App\Models\Gallery::class),
+        'trades'           => $safeCount(\App\Models\TradeTransaction::class),
+        'buyers'           => $safeCount(\App\Models\Buyer::class),
+        'contacts'         => $safeCount(\App\Models\Contact::class),
+        'productExports'   => $safeCount(\App\Models\ProductExport::class),
+        'parentShops'      => $safeCount(\App\Models\ParentShop::class),
+        'categoryShops'    => $safeCount(\App\Models\CategoryShop::class),
+        'productShops'     => $safeCount(\App\Models\ProductShop::class),
+        'productShopImages'=> $safeCount(\App\Models\ProductShopImage::class),
+        'certificates'     => $safeCount(\App\Models\Certificate::class),
     ];
 @endphp
 
@@ -696,7 +514,7 @@
         <div class="company-logo">
             <span class="logo-text">پنل مدیریت</span>
         </div>
-        <small class="text-muted">مدیریت چندمنظوره</small>
+        <small style="color: #95a5a6; font-size: 11px;">مدیریت چندمنظوره</small>
     </div>
 
     <div class="sidebar-user">
@@ -729,8 +547,6 @@
             </a>
         </li>
 
-
-
         <li class="nav-item">
             <a href="{{ route('admin.product.index') }}"
                class="nav-link {{ request()->routeIs('admin.product.*') ? 'active' : '' }}">
@@ -739,7 +555,8 @@
                 <span class="badge">{{ $counts['products'] }}</span>
             </a>
         </li>
-        {{-- ===== منوی فروشگاه با dropdown ===== --}}
+
+        {{-- منوی فروشگاه با dropdown --}}
         <li class="nav-item dropdown {{ request()->routeIs('admin.parentShop.*', 'admin.categoryShop.*', 'admin.productShop.*', 'admin.productShopImage.*') ? 'active' : '' }}">
             <a href="#"
                class="nav-link dropdown-toggle {{ request()->routeIs('admin.parentShop.*', 'admin.categoryShop.*', 'admin.productShop.*', 'admin.productShopImage.*') ? 'active' : '' }}"
@@ -750,43 +567,36 @@
             </a>
 
             <ul class="dropdown-menu">
-                {{-- دسته‌بندی والد --}}
                 <li>
                     <a href="{{ route('admin.parentShop.index') }}"
                        class="dropdown-item {{ request()->routeIs('admin.parentShop.*') ? 'active' : '' }}">
                         <i class="fas fa-folder-tree"></i>
                         <span>دسته‌بندی والد</span>
-                        <span class="badge">{{ $counts['parentShops'] ?? 0 }}</span>
+                        <span class="badge">{{ $counts['parentShops'] }}</span>
                     </a>
                 </li>
-
-                {{-- دسته‌بندی فروشگاه --}}
                 <li>
                     <a href="{{ route('admin.categoryShop.index') }}"
                        class="dropdown-item {{ request()->routeIs('admin.categoryShop.*') ? 'active' : '' }}">
                         <i class="fas fa-layer-group"></i>
                         <span>دسته‌بندی فروشگاه</span>
-                        <span class="badge">{{ $counts['categoryShops'] ?? 0 }}</span>
+                        <span class="badge">{{ $counts['categoryShops'] }}</span>
                     </a>
                 </li>
-
-                {{-- محصولات --}}
                 <li>
                     <a href="{{ route('admin.productShop.index') }}"
                        class="dropdown-item {{ request()->routeIs('admin.productShop.*') ? 'active' : '' }}">
                         <i class="fas fa-box-open"></i>
                         <span>محصولات</span>
-                        <span class="badge">{{ $counts['productShops'] ?? 0 }}</span>
+                        <span class="badge">{{ $counts['productShops'] }}</span>
                     </a>
                 </li>
-
-                {{-- تصاویر محصولات --}}
                 <li>
                     <a href="{{ route('admin.productShopImage.index') }}"
                        class="dropdown-item {{ request()->routeIs('admin.productShopImage.*') ? 'active' : '' }}">
                         <i class="fas fa-images"></i>
                         <span>تصاویر محصولات</span>
-                        <span class="badge">{{ $counts['productShopImages'] ?? 0 }}</span>
+                        <span class="badge">{{ $counts['productShopImages'] }}</span>
                     </a>
                 </li>
             </ul>
@@ -807,6 +617,18 @@
                 <i class="fas fa-images"></i>
                 <span class="nav-text">گالری</span>
                 <span class="badge">{{ $counts['gallery'] }}</span>
+            </a>
+        </li>
+
+        {{-- بخش مجوزها (جدید) --}}
+        <li class="nav-section-title">مجوزها و مدارک</li>
+
+        <li class="nav-item">
+            <a href="{{ route('admin.certificate.index') }}"
+               class="nav-link {{ request()->routeIs('admin.certificate.*') ? 'active' : '' }}">
+                <i class="fas fa-certificate"></i>
+                <span class="nav-text">مجوزها و گواهینامه‌ها</span>
+                <span class="badge">{{ $counts['certificates'] }}</span>
             </a>
         </li>
 
@@ -888,7 +710,9 @@
     <div class="sidebar-footer">
         <form method="POST" action="">
             @csrf
-            <button type="submit" class="nav-link text-danger w-100 border-0 bg-transparent text-start">
+            <button type="submit"
+                    class="nav-link text-danger w-100 border-0 bg-transparent"
+                    style="cursor:pointer;">
                 <i class="fas fa-sign-out-alt"></i>
                 <span class="nav-text">خروج از سیستم</span>
             </button>
@@ -901,7 +725,6 @@
 
 <!-- ═══════════════════ Main Content ═══════════════════ -->
 <div class="main-content" id="mainContent">
-    <!-- Header -->
     <header class="header">
         <div class="header-left">
             <button class="toggle-sidebar" id="toggleSidebar" aria-label="باز و بسته کردن منو">
@@ -951,18 +774,16 @@
     </div>
 </div>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const sidebar       = document.getElementById('sidebar');
-        const toggleBtn     = document.getElementById('toggleSidebar');
-        const overlay       = document.getElementById('sidebarOverlay');
+        const sidebar   = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('toggleSidebar');
+        const overlay   = document.getElementById('sidebarOverlay');
 
-        /* ─── باز و بسته کردن سایدبار ─── */
         function openSidebar() {
             sidebar.classList.add('active');
             overlay.classList.add('active');
@@ -983,19 +804,14 @@
             overlay.addEventListener('click', closeSidebar);
         }
 
-        /* ─── بستن سایدبار با تغییر سایز به دسکتاپ ─── */
         window.addEventListener('resize', function () {
-            if (window.innerWidth >= 992) {
-                closeSidebar();
-            }
+            if (window.innerWidth >= 992) closeSidebar();
         });
 
-        /* ─── جستجوی هدر ─── */
         const searchInput = document.getElementById('globalSearch');
         if (searchInput) {
             searchInput.addEventListener('keyup', function (e) {
                 if (e.key === 'Enter' && this.value.trim() !== '') {
-                    // می‌توانید اینجا به یک صفحه جستجو ریدایرکت کنید
                     console.log('Search for:', this.value);
                 }
             });
@@ -1003,7 +819,6 @@
     });
 </script>
 
-{{-- اسکریپت اختصاصی هر صفحه --}}
 @stack('scripts')
 @yield('scripts')
 

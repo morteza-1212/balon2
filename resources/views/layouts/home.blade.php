@@ -20,7 +20,7 @@
     $defenseUrl        = url($locale . '/defense-balloons');     // بالون‌های نظامی
     $advertisingUrl    = url($locale . '/advertising-balloons'); // بالون‌های تبلیغاتی
     $researchUrl       = url($locale . '/research-balloons');    // بالون‌های پژوهشی
-    $suppliersUrl      = url($locale . '/suppliers');
+    $certificate      = url($locale . '/certificate');
     $logisticsUrl      = url($locale . '/logistics');
     $teamUrl           = url($locale . '/team');
     $contactUrl        = url($locale . '/contact');
@@ -199,7 +199,7 @@
         }
         .language-dropdown .dropdown-menu.show { display: block; }
         [dir="rtl"] .language-dropdown .dropdown-menu { left: 0; right: auto; }
-        [dir="ltr"] .language-dropdown .dropdown-menu { left: 0; right: auto; }
+        [dir="ltr"] .language-dropdown .dropdown-menu { right:0 ; left: auto; }
         .language-dropdown .dropdown-item {
             display: block;
             padding: 9px 12px;
@@ -1230,6 +1230,7 @@
 
     @yield('styles')
     @stack('styles')
+    @stack('scripts')
 </head>
 
 <body>
@@ -1381,9 +1382,9 @@
                                 <i class="fas fa-file-pdf me-2"></i>
                                 {{ __('home.navbar.catalogs') }}
                             </a>
-                            <a href="{{ $suppliersUrl }}" class="dropdown-item">
-                                <i class="fas fa-handshake me-2"></i>
-                                {{ __('home.navbar.suppliers') }}
+                            <a href="{{ $certificate }}" class="dropdown-item">
+                                <i class="fas fa-certificate me-2"></i>
+                                {{ __('home.navbar.certificates') }}
                             </a>
                             <a href="{{ $logisticsUrl }}" class="dropdown-item">
                                 <i class="fas fa-truck me-2"></i>

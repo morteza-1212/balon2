@@ -23,6 +23,9 @@ use App\Http\Controllers\panelAdmin\ProductGroupController;
 use App\Http\Controllers\panelAdmin\ProductGroupTranslationController;
 use App\Http\Controllers\panelAdmin\CategoryController;
 use App\Http\Controllers\panelAdmin\CategoryTranslationController;
+
+use App\Http\Controllers\panelAdmin\CertificateController;
+
 use App\Http\Controllers\panelAdmin\ProductController;
 use App\Http\Controllers\panelAdmin\ProductTranlationController;
 use App\Http\Controllers\panelAdmin\CatalogController;
@@ -136,7 +139,8 @@ Route::prefix('{locale}')
         Route::get('/gallery', [HomeController::class, 'gallery'])->name('gallery');
         Route::get('/projects', [HomeController::class, 'trads'])->name('trad');
         Route::get('/services', [HomeController::class, 'services'])->name('services');
-
+        //certificate
+        Route::get('/certificate',[HomeController::class,'certificate'])->name('certificate.index');
         // Blog
         Route::get('/blog/weather', [BlogController::class, 'weather'])->name('blog.weather');
         Route::get('/blog/Promotional', [BlogController::class, 'Promotional'])->name('blog.Promotional');
@@ -482,6 +486,61 @@ Route::prefix('panelAdmin')->middleware(['admin'])->group(function () {
             Route::delete('/{productShopImage}', [ProductShopImageController::class, 'destroy'])->name('admin.productShopImage.destroy');
         });
     });
+    Route::prefix('panelCertificate')
+        ->name('admin.certificate.')
+        ->middleware(['auth', 'admin']) // مطابق تنظیمات پنل خودتان
+        ->group(function () {
+
+            // ---------- لیست ----------
+            Route::get('/', [CertificateController::class, 'index'])
+                ->name('index');
+
+            // ---------- ایجاد ----------
+            Route::get('/create', [CertificateController::class, 'create'])
+                ->name('create');
+
+            Route::post('/', [CertificateController::class, 'store'])
+                ->name('store');
+
+            // ---------- ویرایش ----------
+            Route::get('/{certificate}/edit', [CertificateController::class, 'edit'])
+                ->name('edit');
+
+            Route::put('/{certificate}', [CertificateController::class, 'update'])
+                ->name('update');
+
+            Route::patch('/{certificate}', [CertificateController::class, 'update'])
+                ->name('update.patch');
+
+            // ---------- حذف نرم ----------
+            Route::delete('/{certificate}', [CertificateController::class, 'destroy'])
+                ->name('destroy');
+
+            // ---------- سبد حذف‌شده‌ها ----------
+            Route::get('/trashed', [CertificateController::class, 'trashed'])
+                ->name('trashed');
+
+            // ---------- بازیابی ----------
+            Route::post('/{id}/restore', [CertificateController::class, 'restore'])
+                ->whereNumber('id')
+                ->name('restore');
+
+            // ---------- حذف کامل ----------
+            Route::delete('/{id}/force', [CertificateController::class, 'forceDestroy'])
+                ->whereNumber('id')
+                ->name('force-destroy');
+
+            // ---------- عملیات گروهی (اختیاری) ----------
+            Route::post('/bulk-toggle-active', [CertificateController::class, 'bulkToggleActive'])
+                ->name('bulk-toggle-active');
+
+            Route::post('/bulk-delete', [CertificateController::class, 'bulkDelete'])
+                ->name('bulk-delete');
+
+            // ---------- تغییر ترتیب با drag & drop (اختیاری) ----------
+            Route::post('/reorder', [CertificateController::class, 'reorder'])
+                ->name('reorder');
+        });
 
 }); // ← پایان گروه panelAdmin
 

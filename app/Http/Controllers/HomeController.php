@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBuyerRequest;
 use App\Models\Buyer;
+use App\Models\Certificate;
 use App\Models\Contact;
 use App\Models\Gallery;
 use App\Models\TradeTransaction;
@@ -199,5 +200,47 @@ class HomeController extends Controller
     public function orderView()
     {
         return view('orderView.orderView');
+    }
+    /**
+     * نمایش صفحه مجوزها و گواهینامه‌ها برای مخاطب
+     */
+    public function certificate()
+    {
+        $locale = app()->getLocale();
+
+        // فقط مدارک فعال و منتشرشده
+        $certificates = Certificate::query()
+            ->active()
+            ->published()
+            ->ordered()
+            ->with(['translations' => function ($q) use ($locale) {
+                // فقط ترجمه زبان فعلی + فارسی (برای fallback)
+                $q->whereIn('locale', array_unique([$locale, 'fa']));
+            }])
+            ->get();
+
+        // فیلتر: فقط مدارکی که حداقل یک ترجمه معتبر دارند
+        $certificates = $certificates->filter(function ($cert) use ($locale) {
+            $tr = $cert->translate($locale) ?? $cert->translate('fa');
+            return $tr && !empty(trim((string) $tr->title));
+        });
+
+        // گروه‌بندی بر اساس دسته (اختیاری، برای نمایش)
+        $categories = Certificate::CATEGORIES;
+
+        // آمار برای بخش intro (اختیاری)
+        $stats = [
+            'total'    => $certificates->count(),
+            'license'  => $certificates->where('category', 'license')->count(),
+            'standard' => $certificates->where('category', 'standard')->count(),
+            'technical'=> $certificates->where('category', 'technical')->count(),
+        ];
+
+        return view('certificates.index', compact(
+            'certificates',
+            'categories',
+            'stats',
+            'locale'
+        ));
     }
 }

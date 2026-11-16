@@ -38,8 +38,8 @@ return [
        TOPBAR
     ========================================================= */
     'topbar' => [
-        'address' => 'Tehran, Valiasr St., No. 123',
-        'phone'   => '021-88776655',
+        'address' => 'Alborz Province, Shahriar County, Hashtgerd Industrial Town',
+        'phone'   => '+989191919885',
     ],
 
     /* =========================================================
@@ -59,6 +59,7 @@ return [
         'logistics'            => 'Shipping & Logistics',
         'team'                 => 'Our Experts',
         'gallery'              => 'Project Gallery',
+        'certificates' => 'Licenses & Certificates',
         'buyer'                => 'Buyers',
         'contact'              => 'Contact Us',
         'cooperation'          => 'Request Consultation',
